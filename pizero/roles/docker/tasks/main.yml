@@ -1,0 +1,76 @@
+- name: Install docker dependency
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
+  tags:
+    - install
+    - docker
+
+- name: Add docker GPG key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags:
+    - install
+    - docker
+
+- name: Add docker repository to apt
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+  tags:
+    - install
+    - docker
+
+- name: install docker
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-compose-plugin
+  tags:
+    - install
+    - docker
+
+- name: Enable docker
+  become: true
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  tags:
+    - install
+    - docker
+
+- name: Ensure the Docker group exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+  tags:
+    - install
+    - docker
+
+- name: Add the current user "{{ ansible_user }}" to the Docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
+  become: true
+  tags:
+    - install
+    - docker

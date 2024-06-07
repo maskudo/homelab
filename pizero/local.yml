@@ -1,0 +1,17 @@
+- name: Main
+  hosts: all
+  pre_tasks:
+    - name: Update apt
+      become: true
+      ansible.builtin.apt:
+        force_apt_get: true
+        update_cache: true
+        state: present
+      tags:
+        - install
+        - core
+        - tailscale
+  roles:
+    - core
+    - docker
+    - tailscale

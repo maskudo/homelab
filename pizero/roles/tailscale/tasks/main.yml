@@ -1,0 +1,30 @@
+- name: Add tailscale GPG key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg
+    state: present
+  tags:
+    - install
+    - tailscale
+
+- name: Add Tailscale repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb [trusted=yes] https://pkgs.tailscale.com/stable/debian bookworm main
+    state: present
+    filename: /etc/apt/sources.list.d/tailscale.list
+  tags:
+    - install
+    - tailscale
+
+- name: Install tailscale
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+  loop:
+    - tailscale
+  tags:
+    - install
+    - tailscale
