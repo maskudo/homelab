@@ -1,7 +1,7 @@
 - name: Install packages
   become: true
   ansible.builtin.apt:
-    name: ["vim", "tmux", "btop"]
+    name: ["vim", "tmux", "btop", "git", "ssh", "ufw"]
   tags:
     - install
     - core
