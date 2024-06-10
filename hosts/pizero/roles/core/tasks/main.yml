@@ -5,3 +5,11 @@
   tags:
     - install
     - core
+
+- name: Enable UFW
+  become: true
+  community.general.ufw:
+    state: enabled
+  tags:
+    - install
+    - core

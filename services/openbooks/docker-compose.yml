@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  openbooks:
+    container_name: OpenBooks
+    restart: unless-stopped
+    image: evanbuss/openbooks
+    volumes:
+      - ~/Downloads/books/:/books
+    ports:
+      - "8080:80"
+    command: --persist --name pizero
+    environment:
+      - BASE_PATH=/
