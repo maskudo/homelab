@@ -1,0 +1,2 @@
+source_key: "id_ed25519"
+dest_key: "/home/{{ ansible_user }}/.ssh/id_ed25519"

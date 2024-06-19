@@ -11,7 +11,9 @@
         - install
         - core
         - tailscale
+        - docker
   roles:
     - core
     - docker
     - tailscale
+    - ssh

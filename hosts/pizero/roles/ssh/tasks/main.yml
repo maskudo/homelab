@@ -1,0 +1,30 @@
+- name: Ensure .ssh directory exists.
+  ansible.builtin.file:
+    dest: "{{ dest_key | dirname }}"
+    mode: "0700"
+    state: directory
+  tags:
+    - install
+    - ssh
+
+- name: Decrypt SSH private key
+  ansible.builtin.copy:
+    src: "{{ source_key }}"
+    dest: "{{ dest_key }}"
+    mode: "0600"
+    decrypt: true
+  no_log: true
+  tags:
+    - install
+    - ssh
+
+- name: Decrypt SSH public key
+  ansible.builtin.copy:
+    src: "{{ source_key }}.pub"
+    dest: "{{ dest_key }}.pub"
+    mode: "0644"
+    decrypt: true
+  no_log: true
+  tags:
+    - install
+    - ssh
