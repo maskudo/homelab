@@ -5,9 +5,9 @@ services:
     restart: unless-stopped
     image: evanbuss/openbooks
     volumes:
-      - ~/Downloads/books/:/books
+      - ./data:/books
     ports:
       - "8080:80"
-    command: --persist --name pizero -s irc.irchighway.net:6697 
+    command: --persist --name pizero -s irc.irchighway.net:6697
     environment:
       - BASE_PATH=/
