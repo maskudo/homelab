@@ -16,4 +16,5 @@
     - core
     - docker
     - tailscale
-    - ssh
+    # - ssh
+    - ufw

@@ -1,15 +1,7 @@
 - name: Install packages
   become: true
   ansible.builtin.apt:
-    name: ["vim", "tmux", "btop", "git", "ssh", "ufw"]
-  tags:
-    - install
-    - core
-
-- name: Enable UFW
-  become: true
-  community.general.ufw:
-    state: enabled
+    name: ["vim", "tmux", "btop", "git", "ssh", "tldr"]
   tags:
     - install
     - core
