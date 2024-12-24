@@ -1,0 +1,45 @@
+- name: Install ufw
+  become: true
+  ansible.builtin.apt:
+    name: ["ufw"]
+  tags:
+    - install
+    - ufw
+
+- name: Allow ssh
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: ssh
+    proto: tcp
+  tags:
+    - install
+    - ufw
+
+- name: Allow http
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: http
+    proto: tcp
+  tags:
+    - install
+    - ufw
+
+- name: Allow https
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: https
+    proto: tcp
+  tags:
+    - install
+    - ufw
+
+- name: Enable UFW
+  become: true
+  community.general.ufw:
+    state: enabled
+  tags:
+    - install
+    - ufw

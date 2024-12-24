@@ -1,0 +1,65 @@
+- name: Make ubuntu server vm into a template
+  become: true
+  tags:
+    - make-template
+  block:
+    - name: Truncate machine-id
+      community.general.filesize:
+        path: /etc/machine-id
+        size: 0
+
+    - name: Create symlink for machine-id
+      ansible.builtin.file:
+        src: /etc/machine-id
+        dest: /var/lib/dbus/machine-id
+        state: link
+
+    - name: Find ssh hostkey files
+      ansible.builtin.find:
+        paths: /etc/ssh
+        patterns:
+          - "ssh_host_*"
+        file_type: file
+      register: found_files
+
+    - name: Remove ssh host keys
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ found_files.files }}"
+
+    - name: Clean apt
+      ansible.builtin.apt:
+        clean: true
+        autoremove: true
+        autoclean: true
+
+    - name: Install cloud-init
+      ansible.builtin.apt:
+        name: ["cloud-init"]
+
+    - name: Ensure cloud-init directory exists.
+      ansible.builtin.file:
+        dest: "/etc/cloud"
+        # readable and executable by all, writeable by root
+        mode: "0755"
+        state: directory
+
+    - name: Add cloud-init template file
+      ansible.builtin.copy:
+        src: "cloud.cfg"
+        dest: "/etc/cloud/cloud.cfg"
+        # readable and writeable by root, readable by all
+        mode: "0644"
+
+    - name: Add cloud-init data source file
+      ansible.builtin.copy:
+        src: "cloud.cfg.d"
+        dest: "/etc/cloud/"
+        # readable and executable by all, writeable by root
+        mode: "0755"
+
+    # no cloud-init module so we just run the command
+    - name: Clean cloud-init
+      ansible.builtin.command:
+        cmd: cloud-init clean

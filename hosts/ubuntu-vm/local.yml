@@ -1,0 +1,20 @@
+- name: Main
+  hosts: all
+  pre_tasks:
+    - name: Update apt
+      become: true
+      ansible.builtin.apt:
+        force_apt_get: true
+        update_cache: true
+        state: present
+      tags:
+        - install
+        - core
+        - docker
+        - ufw
+        - make-template
+  roles:
+    - { role: core, tags: ["core"] }
+    - { role: docker, tags: ["docker"] }
+    - { role: ufw, tags: ["ufw"] }
+    - { role: make-template, tags: ["make-template"] }
