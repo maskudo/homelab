@@ -15,3 +15,9 @@ ansible-playbook -i hosts.ini -K -u ubuntu-base local.yml
 ```bash
 ansible-playbook -i hosts.ini -K -u ubuntu-base -t make-template  local.yml
 ```
+
+## Run an ad-hoc command on a host:
+
+```bash
+ansible ubuntuvm -a 'hostname'
+```

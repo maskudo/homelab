@@ -1,0 +1,38 @@
+- name: Install K3s servers
+  become: true
+  block:
+    - name: Create temporary directory for the script
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: k3s
+      register: temp_dir
+
+    - name: Debug load balancer IP
+      debug:
+        msg: "{{ hostvars['balancer'].ansible_host }}"
+
+    - name: Download K3s installation script
+      ansible.builtin.get_url:
+        url: https://get.k3s.io
+        dest: "{{ temp_dir.path }}/install_k3s.sh"
+        mode: "0755"
+
+    - name: INIT_SERVER Execute K3s installation script
+      when: inventory_hostname in groups['init_servers']
+      ansible.builtin.shell: >
+        sh "{{ temp_dir.path }}/install_k3s.sh" server --tls-san {{ hostvars['balancer'].ansible_host }} --token {{ token }} --cluster-init
+
+    - name: HA_SERVERS Execute K3s installation script
+      when: inventory_hostname in groups['ha_servers']
+      ansible.builtin.shell: >
+        sh "{{ temp_dir.path }}/install_k3s.sh" server --tls-san {{ hostvars['balancer'].ansible_host }} --token {{ token }} --server https://{{ hostvars['server1'].ansible_host }}:6443
+
+    - name: Agent Execute K3s installation script
+      when: inventory_hostname in groups['nodes']
+      ansible.builtin.shell: >
+        sh "{{ temp_dir.path }}/install_k3s.sh" agent --server https://{{ hostvars['balancer'].ansible_host }}:6443 --token {{ token }}
+
+    - name: Remove temporary directory
+      ansible.builtin.file:
+        path: "{{ temp_dir.path }}"
+        state: absent

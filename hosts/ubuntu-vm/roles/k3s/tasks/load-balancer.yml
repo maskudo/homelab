@@ -1,0 +1,19 @@
+- name: Install load balancer
+  become: true
+  when: "'load_balancer' in group_names"
+  block:
+    - name: Install haproxy
+      ansible.builtin.apt:
+        name: [haproxy]
+    - name: Copy haproxy config
+      ansible.builtin.copy:
+        src: "haproxy.conf"
+        dest: "/etc/haproxy/haproxy.cfg"
+        # readable and writeable by root, readable by all
+        mode: "0644"
+
+    - name: Enable and restart HAProxy
+      ansible.builtin.systemd:
+        name: haproxy
+        state: restarted
+        enabled: true

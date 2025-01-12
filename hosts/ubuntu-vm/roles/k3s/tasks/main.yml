@@ -1,0 +1,5 @@
+- name: Config tasks
+  ansible.builtin.include_tasks: "{{ item }}"
+  loop:
+    - k3s.yml
+    - load-balancer.yml
