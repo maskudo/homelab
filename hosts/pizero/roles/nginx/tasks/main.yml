@@ -1,0 +1,25 @@
+- name: Install nginx
+  become: true
+  ansible.builtin.apt:
+    name: nginx
+  tags:
+    - install
+    - nginx
+
+- name: Install ufw
+  become: true
+  ansible.builtin.apt:
+    name: ["ufw"]
+  tags:
+    - install
+    - ufw
+
+- name: Allow http
+  become: true
+  ufw:
+    rule: allow
+    port: http
+    proto: tcp
+  tags:
+    - install
+    - ufw

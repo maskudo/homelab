@@ -12,9 +12,13 @@
         - core
         - tailscale
         - docker
+        - nginx
+        - ssl
   roles:
     - core
     - docker
     - tailscale
     # - ssh
     - ufw
+    - { role: "nginx", tags: ["nginx"] }
+    # - { role: "ssl", tags: ["ssl"] }

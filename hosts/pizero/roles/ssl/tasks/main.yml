@@ -1,0 +1,29 @@
+- name: Install certbot
+  become: true
+  ansible.builtin.apt:
+    name: ["certbot", "python3-certbot-dns-cloudflare"]
+
+- name: Copy cloudflare credentials
+  ansible.builtin.copy:
+    src: cloudflare.ini
+    dest: "{{ ansible_env.HOME }}/.cloudflare.ini"
+    mode: "0600"
+    decrypt: true
+
+- name: Get Certificates
+  become: true
+  ansible.builtin.shell: |
+    sudo certbot certonly \
+    --non-interactive \
+    --no-eff-email \
+    --dns-cloudflare \
+    --dns-cloudflare-propagation-seconds 120 \
+    --dns-cloudflare-credentials "{{ ansible_env.HOME }}/.cloudflare.ini" \
+    --email "manujkarki101@gmail.com" \
+    --agree-tos \
+    -d "manujkarki.com.np" -d "*.manujkarki.com.np"
+
+- name: Delete cloudflare credentials
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.cloudflare.ini"
+    state: absent
