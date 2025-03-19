@@ -1,1 +1,5 @@
 proxmox/.direnv
+services/vaultwarden/vw-data
+services/audiobookshelf/config
+services/audiobookshelf/metadata
+services/immich/library
