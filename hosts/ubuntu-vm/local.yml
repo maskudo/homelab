@@ -19,3 +19,4 @@
     - { role: ufw, tags: ["ufw"] }
     - { role: make-template, tags: ["make-template"] }
     - { role: k3s, tags: ["k3s"] }
+    - { role: nfs, tags: ["nfs"] }

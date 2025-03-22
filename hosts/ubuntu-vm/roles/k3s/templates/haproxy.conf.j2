@@ -1,0 +1,10 @@
+frontend k3s_frontend
+    bind *:6443
+    default_backend k3s_backend
+
+backend k3s_backend
+    balance roundrobin
+    {% for host in groups['init_servers'] + groups['ha_servers'] %}
+      server {{ hostvars[host]['name']}} {{ hostvars[host]['ansible_host']}}:6443 check 
+    {% endfor %}
+
