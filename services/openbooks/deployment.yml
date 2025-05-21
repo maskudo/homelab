@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openbooks
+  namespace: homelab
+  labels:
+    app: openbooks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openbooks
+  template:
+    metadata:
+      labels:
+        app: openbooks
+    spec:
+      containers:
+        - name: openbooks
+          image: evanbuss/openbooks
+          args:
+            - "--persist"
+            - "--name"
+            - "pizero"
+            - "-s"
+            - "irc.irchighway.net:6697"
+          ports:
+            - containerPort: 80
+          env:
+            - name: BASE_PATH
+              value: "/"
+          volumeMounts:
+            - name: data-volume
+              mountPath: /books
+      volumes:
+        - name: data-volume
+          hostPath:
+            path: data
+            type: Directory
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openbooks
+  namespace: homelab
+spec:
+  type: NodePort
+  selector:
+    app: openbooks
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
