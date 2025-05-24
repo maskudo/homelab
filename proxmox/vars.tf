@@ -10,6 +10,10 @@ variable "proxmox_host" {
 variable "template_name" {
   default = "ubuntu-2404-cloud"
 }
+#Specify which template id you'd like to use
+variable "template_id" {
+  default = 8000
+}
 #Establish which nic you would like to utilize
 variable "nic_name" {
   default = "vmbr0"
@@ -18,7 +22,11 @@ variable "nic_name" {
 #It is safe to default to setting this as the URL for what you used
 #as your `proxmox_host`, although they can be different
 variable "api_url" {
-  default = "https://192.168.1.65:8006/api2/json"
+  default = "https://192.168.1.67:8006/api2/json"
+}
+
+variable "datastore_id" {
+  default = "ssd-storage"
 }
 
 #Blank var for use by terraform.tfvars
@@ -26,4 +34,8 @@ variable "token_secret" {
 }
 #Blank var for use by terraform.tfvars
 variable "token_id" {
+}
+#
+#Blank var for use by terraform.tfvars
+variable "api_token" {
 }

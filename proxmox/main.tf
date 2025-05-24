@@ -1,63 +1,64 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "telmate/proxmox"
-      version = "3.0.1-rc6"
+      source  = "bpg/proxmox"
+      version = "0.78.0"
     }
   }
 }
 
 provider "proxmox" {
-  # References our vars.tf file to plug in the api_url 
-  pm_api_url = var.api_url
-  # References our secrets.tfvars file to plug in our token_id
-  pm_api_token_id = var.token_id
-  # References our secrets.tfvars to plug in our token_secret 
-  pm_api_token_secret = var.token_secret
-  # Default to `true` unless you have TLS working within your pve setup 
-  pm_tls_insecure = true
+  endpoint  = var.api_url
+  api_token = var.api_token
+
+  insecure = true
+
+  random_vm_ids      = true
+  random_vm_id_start = 90000
+  random_vm_id_end   = 90999
+
 }
 
-# Creates a proxmox_vm_qemu entity named blog_demo_test
-resource "proxmox_vm_qemu" "test" {
-  name        = "test-vm-01"
-  target_node = var.proxmox_host
+resource "proxmox_virtual_environment_vm" "server" {
+  name      = "server"
+  node_name = var.proxmox_host
+  started   = false
+  clone {
+    vm_id = var.template_id
+  }
 
-  clone      = var.template_name
-  full_clone = "true"
+  agent {
+    enabled = false
+  }
 
-  cores   = 2
-  sockets = 1
-  memory  = 2048
-  scsihw   = "virtio-scsi-pci"
-  bootdisk = "scsi0"
+  memory {
+    dedicated = 1024
+  }
 
   disk {
-    slot    = "ide1"
-    size    = "20G"
-    type    = "cloudinit"
-    storage = "ssd-storage" # Name of storage local to the host you are spinning the VM up on
-    discard = true
+    datastore_id = var.datastore_id
+    interface    = "virtio0"
   }
 
-  network {
-    id="1"
-    model     = "virtio"
-    bridge    = var.nic_name
-    firewall  = false
-    link_down = false
-  }
+  initialization {
+    datastore_id = var.datastore_id
+    dns {
+      servers = ["1.1.1.1"]
+    }
 
-  #
-  # lifecycle {
-  #   ignore_changes = [
-  #     network,
-  #   ]
-  # }
-  #provisioner "local-exec" {
-  # Provisioner commands can be run here.
-  # We will use provisioner functionality to kick off ansible
-  # playbooks in the future
-  #command = "touch /home/tcude/test.txt"
-  #}
+    user_account {
+      keys     = [var.ssh_key]
+      username = "ubuntu"
+      password = ""
+    }
+
+    ip_config {
+      ipv4 {
+        address = "192.168.1.69/24"
+      }
+    }
+  }
+}
+output "vm_ipv4_address" {
+  value = proxmox_virtual_environment_vm.server.ipv4_addresses
 }
