@@ -27,11 +27,12 @@ resource "proxmox_virtual_environment_vm" "this" {
     interface    = "virtio0"
   }
 
+  network_device {
+    bridge = "vmbr0"
+  }
+
   initialization {
     datastore_id = var.datastore_id
-    dns {
-      servers = ["1.1.1.1"]
-    }
 
     user_account {
       keys     = [var.ssh_key]
@@ -42,6 +43,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     ip_config {
       ipv4 {
         address = var.ip_address
+        gateway = "192.168.1.254"
       }
     }
   }
