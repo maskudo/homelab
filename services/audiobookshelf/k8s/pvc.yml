@@ -4,7 +4,7 @@ metadata:
   name: audiobookshelf-config
   namespace: audiobookshelf
 spec:
-  storageClassName: standard
+  storageClassName: longhorn
   accessModes:
     - ReadWriteMany
   resources:
@@ -18,7 +18,7 @@ metadata:
   name: audiobookshelf-metadata
   namespace: audiobookshelf
 spec:
-  storageClassName: standard
+  storageClassName: longhorn
   accessModes:
     - ReadWriteMany
   resources:
@@ -32,7 +32,7 @@ metadata:
   name: audiobookshelf-podcasts
   namespace: audiobookshelf
 spec:
-  storageClassName: standard
+  storageClassName: longhorn
   accessModes:
     - ReadWriteMany
   resources:
@@ -46,7 +46,7 @@ metadata:
   name: audiobookshelf-audiobooks
   namespace: audiobookshelf
 spec:
-  storageClassName: standard
+  storageClassName: longhorn
   accessModes:
     - ReadWriteMany
   resources:

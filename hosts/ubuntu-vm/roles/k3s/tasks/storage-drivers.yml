@@ -1,0 +1,16 @@
+- name: Install open-iscsi on all nodes (required for longhorn)
+  hosts: all
+  become: true
+  tasks:
+    - name: Install nfs-utils
+      become: true
+      ansible.builtin.apt:
+        name: [nfs-common open-iscsi]
+        state: present
+        update_cache: true
+
+    - name: Ensure iscsid service is enabled and started
+      service:
+        name: iscsid
+        state: started
+        enabled: yes

@@ -19,7 +19,11 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   memory {
-    dedicated = 1024
+    dedicated = 2048
+  }
+
+  cpu {
+    cores = 2
   }
 
   disk {

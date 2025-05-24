@@ -3,3 +3,4 @@
   loop:
     - k3s.yml
     - load-balancer.yml
+    - storage-drivers.yml
