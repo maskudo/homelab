@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    proxmox = {
-      source  = "bpg/proxmox"
-      version = "0.78.0"
-    }
-  }
-}
-
 provider "proxmox" {
   endpoint  = var.api_url
   api_token = var.api_token
@@ -19,46 +10,15 @@ provider "proxmox" {
 
 }
 
-resource "proxmox_virtual_environment_vm" "server" {
-  name      = "server"
-  node_name = var.proxmox_host
-  started   = false
-  clone {
-    vm_id = var.template_id
-  }
-
-  agent {
-    enabled = false
-  }
-
-  memory {
-    dedicated = 1024
-  }
-
-  disk {
-    datastore_id = var.datastore_id
-    interface    = "virtio0"
-  }
-
-  initialization {
-    datastore_id = var.datastore_id
-    dns {
-      servers = ["1.1.1.1"]
-    }
-
-    user_account {
-      keys     = [var.ssh_key]
-      username = "ubuntu"
-      password = ""
-    }
-
-    ip_config {
-      ipv4 {
-        address = "192.168.1.69/24"
-      }
-    }
-  }
+module "server" {
+  source       = "./modules/proxmox_vm/"
+  name         = "server-01"
+  node_name    = var.proxmox_host
+  template_id  = var.template_id
+  datastore_id = var.datastore_id
+  ssh_key      = var.ssh_key
 }
-output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.server.ipv4_addresses
+output "vm_id" {
+  value       = module.server.vm_id
+  description = "Vm id of created vm"
 }
