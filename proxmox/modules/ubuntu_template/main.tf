@@ -13,6 +13,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu-template" {
 
   template = true
   started  = false
+  on_boot  = false
 
   machine     = "q35"
   bios        = "ovmf"
