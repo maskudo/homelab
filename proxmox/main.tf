@@ -8,6 +8,16 @@ provider "proxmox" {
   random_vm_id_start = 90000
   random_vm_id_end   = 90999
 
+  ssh {
+    agent       = false
+    username    = var.username
+    password    = var.password
+    private_key = file(var.private_key)
+    node {
+      name    = var.proxmox_host
+      address = var.proxmox_host_ip
+    }
+  }
 }
 
 locals {
@@ -39,15 +49,26 @@ locals {
   ]
 }
 
+module "ubuntu_template" {
+  source       = "./modules/ubuntu_template"
+  name         = "ubuntu-2404-template"
+  node_name    = var.proxmox_host
+  datastore_id = var.datastore_id
+  ssh_key      = var.ssh_key
+  username     = "ubuntu"
+  disk_size    = 20
+}
+
 module "server" {
   source       = "./modules/proxmox_vm/"
   for_each     = { for vm in local.vm_config : vm.name => vm }
   name         = each.value.name
   ip_address   = each.value.ip_address
   node_name    = var.proxmox_host
-  template_id  = var.template_id
+  template_id  = module.ubuntu_template.vm_id
   datastore_id = var.datastore_id
   ssh_key      = var.ssh_key
+  disk_size    = 20
 }
 
 output "vm_id" {

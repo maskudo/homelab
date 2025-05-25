@@ -21,7 +21,11 @@ variable "ip_address" {
 }
 
 variable "gateway" {
-  default = "192.168.1.254"
+  default = "192.168.1.254/24"
+}
+
+variable "username" {
+  default = "ubuntu"
 }
 
 variable "disk_size" {

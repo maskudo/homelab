@@ -6,6 +6,11 @@ variable "ssh_key" {
 variable "proxmox_host" {
   default = "mk489-nixos"
 }
+
+variable "proxmox_host_ip" {
+  default = "192.168.1.67"
+}
+
 #Specify which template name you'd like to use
 variable "template_name" {
   default = "ubuntu-2404-cloud"
@@ -29,6 +34,10 @@ variable "datastore_id" {
   default = "ssd-storage"
 }
 
+variable "private_key" {
+  default = "~/.ssh/id_ed25519"
+}
+
 #Blank var for use by terraform.tfvars
 variable "token_secret" {
 }
@@ -38,4 +47,12 @@ variable "token_id" {
 #
 #Blank var for use by terraform.tfvars
 variable "api_token" {
+}
+
+#Blank var for use by terraform.tfvars
+variable "username" {
+}
+#
+#Blank var for use by terraform.tfvars
+variable "password" {
 }

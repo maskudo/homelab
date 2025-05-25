@@ -29,6 +29,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   disk {
     datastore_id = var.datastore_id
     interface    = "virtio0"
+    size         = var.disk_size
   }
 
   network_device {
@@ -47,7 +48,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     ip_config {
       ipv4 {
         address = var.ip_address
-        gateway = "192.168.1.254"
+        gateway = var.gateway
       }
     }
   }
