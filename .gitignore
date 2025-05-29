@@ -3,3 +3,6 @@ services/vaultwarden/vw-data
 services/audiobookshelf/config
 services/audiobookshelf/metadata
 services/immich/library
+aws/.terraform/providers/registry.opentofu.org/hashicorp/aws/5.98.0/linux_amd64
+aws/terraform.tfstate.backup
+aws/terraform.tfstate
