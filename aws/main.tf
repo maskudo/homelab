@@ -23,6 +23,27 @@ resource "aws_subnet" "paperless-subnet" {
   }
 }
 
+# mutliple subnets for db to meet high availability requirements
+resource "aws_subnet" "paperless-subnet-db-a" {
+  vpc_id                  = aws_vpc.paperless.id
+  cidr_block              = "10.0.2.0/28"
+  availability_zone       = "ap-south-1a"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "paperless-db-subnet-a"
+  }
+}
+resource "aws_subnet" "paperless-subnet-db-b" {
+  vpc_id                  = aws_vpc.paperless.id
+  cidr_block              = "10.0.3.0/28"
+  availability_zone       = "ap-south-1b"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "paperless-db-subnet-b"
+  }
+}
+
+
 resource "aws_internet_gateway" "paperless-igw" {
   vpc_id = aws_vpc.paperless.id
   tags = {
@@ -86,7 +107,61 @@ resource "aws_key_pair" "web-server-key-pair" {
   public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2bl3yHCcGK2dvde0CYmWmcYWiBSju3OuVyj4O9afJp manujkarki101@gmail.com"
 }
 
+resource "aws_db_subnet_group" "paperless-db" {
+  name       = "paperless"
+  subnet_ids = [aws_subnet.paperless-subnet-db-a.id, aws_subnet.paperless-subnet-db-b.id]
+  tags = {
+    Name = "paperless-db"
+  }
+}
+
+resource "aws_security_group" "paperless-db-sg" {
+  name   = "paperless-db-sg"
+  vpc_id = aws_vpc.paperless.id
+  ingress {
+    from_port = 5432
+    to_port   = 5432
+    protocol  = "tcp"
+    # we give access to paperless security group so that paperless ec2 instance can access the database
+    security_groups = [aws_security_group.paperless-sg.id]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "paperless-db-sg"
+  }
+}
+
+resource "aws_db_instance" "paperless-db" {
+  engine                  = "postgres"
+  instance_class          = "db.t3.micro"
+  allocated_storage       = 20
+  db_name                 = "paperless"
+  username                = "paperless"
+  password                = "paperless"
+  skip_final_snapshot     = true
+  apply_immediately       = true
+  backup_retention_period = 0
+  publicly_accessible     = false
+  db_subnet_group_name    = aws_db_subnet_group.paperless-db.name
+  vpc_security_group_ids  = [aws_security_group.paperless-db-sg.id]
+  tags = {
+    Name = "paperless-db"
+  }
+
+}
+
+
 output "paperless-ip" {
   value       = aws_instance.paperless.public_ip
   description = "IP address of web-server"
+}
+
+output "rds_endpoint" {
+  value = aws_db_instance.paperless-db.endpoint
 }
