@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     volumes:
       - /home:/srv #Change to match your directory
-      - ./filebrowser.db:/database/filebrowser.db #Change to match your directory
-      - ./settings.json:/config/settings.json #Change to match your directory
+      - ./filebrowser.db:/database.db #Change to match your directory
+    user: "1000:100"
     environment:
       - PUID=$(id -u)
       - PGID=$(id -g)
