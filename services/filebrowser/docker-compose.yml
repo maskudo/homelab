@@ -5,11 +5,16 @@ services:
     container_name: filebrowser
     restart: unless-stopped
     volumes:
-      - /home:/srv #Change to match your directory
+      - /mnt/media:/srv #Change to match your directory
       - ./filebrowser.db:/database.db #Change to match your directory
     user: "1000:100"
     environment:
       - PUID=$(id -u)
       - PGID=$(id -g)
     ports:
-      - 8095:80 #Change the port if needed
+      - 9080:80 #Change the port if needed
+    networks:
+      - homelab
+networks:
+  homelab:
+    external: true

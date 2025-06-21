@@ -8,3 +8,6 @@ aws/terraform.tfstate.backup
 aws/terraform.tfstate
 services/paperless/consume
 services/filebrowser/filebrowser.db
+services/jellyfin
+services/nginx/cloudflare.ini
+services/nginx/certbot/conf/renewal
