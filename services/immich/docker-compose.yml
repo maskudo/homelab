@@ -13,6 +13,12 @@ services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.immich_server.rule=Host(`photos.manujkarki.com.np`)"
+      - "traefik.http.routers.immich_server.entrypoints=websecure"
+      - "traefik.http.routers.immich_server.tls=true"
+      - "traefik.http.routers.immich_server.tls.certresolver=letencrypt"
     # extends:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
