@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.immich_server.entrypoints=websecure"
       - "traefik.http.routers.immich_server.tls=true"
       - "traefik.http.routers.immich_server.tls.certresolver=letencrypt"
+      - "traefik.http.routers.immich_server.middlewares=authelia"
     # extends:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding

@@ -1,0 +1,25 @@
+services:
+  authelia:
+    image: authelia/authelia:latest
+    container_name: authelia
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.authelia.rule: "Host(`auth.manujkarki.com.np`)"
+      traefik.http.routers.authelia.entryPoints: "websecure"
+      traefik.http.routers.authelia.tls: "true"
+      traefik.http.routers.authelia.tls.certresolver: letencrypt
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/verify?rd=https://auth.manujkarki.com.np"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User,Remote-Groups,Remote-Email,Remote-Name"
+    volumes:
+      - ./authelia/config:/config
+    ports:
+      - "9091:9091"
+    environment:
+      - TZ=UTC
+    restart: unless-stopped
+    networks:
+      - homelab
+networks:
+  homelab:
+    external: true

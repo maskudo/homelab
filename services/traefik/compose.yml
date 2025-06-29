@@ -3,6 +3,13 @@ services:
     image: traefik
     container_name: traefik
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.manujkarki.com.np`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=letencrypt"
+      - "traefik.http.routers.traefik.middlewares=authelia"
     security_opt:
       - no-new-privileges:true
     environment:

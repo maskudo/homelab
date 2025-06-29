@@ -1,0 +1,8 @@
+users:
+  mk489:
+    displayname: "mk489"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$zGZNb2yLh0ieNOAFp0ZqOw$JJKR+qEqSO4iiNz0eZ4BEaTmOlOkvQtEX7hM8QUkMOw"   
+    email: manujkarki101@gmail.com
+    groups:
+      - admins
+      - dev
