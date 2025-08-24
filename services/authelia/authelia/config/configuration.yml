@@ -39,6 +39,7 @@ access_control:
         - "file.manujkarki.com.np"
         - "photos.manujkarki.com.np"
         - "traefik.manujkarki.com.np"
+        - "audiobooks.manujkarki.com.np"
       policy: one_factor
 
 session:
