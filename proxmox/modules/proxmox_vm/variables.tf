@@ -27,3 +27,11 @@ variable "gateway" {
 variable "disk_size" {
   default = 20
 }
+
+variable "memory_size" {
+  default = 2048
+}
+
+variable "cpu_cores" {
+  default = 2
+}

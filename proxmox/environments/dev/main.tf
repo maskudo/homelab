@@ -50,7 +50,7 @@ locals {
 }
 
 module "ubuntu_template" {
-  source       = "./modules/ubuntu_template"
+  source       = "../../modules/ubuntu_template"
   name         = "ubuntu-2404-template"
   node_name    = var.proxmox_host
   datastore_id = var.datastore_id
@@ -60,7 +60,7 @@ module "ubuntu_template" {
 }
 
 module "server" {
-  source       = "./modules/proxmox_vm/"
+  source       = "../../modules/proxmox_vm"
   for_each     = { for vm in local.vm_config : vm.name => vm }
   name         = each.value.name
   ip_address   = each.value.ip_address
@@ -70,6 +70,7 @@ module "server" {
   ssh_key      = var.ssh_key
   disk_size    = 20
 }
+
 
 output "vm_id" {
   value       = { for name, mod in module.server : name => mod.vm_id }
