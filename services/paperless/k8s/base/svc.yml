@@ -4,7 +4,6 @@ metadata:
   labels:
     app: paperless
   name: paperless
-  namespace: paperless
 spec:
   ports:
     - name: paperless
@@ -23,7 +22,6 @@ metadata:
   labels:
     app: paperless-redis
   name: paperless-redis
-  namespace: paperless
 spec:
   ports:
     - name: paperless-redis
@@ -41,7 +39,6 @@ metadata:
   labels:
     app: paperless-postgres
   name: paperless-postgres
-  namespace: paperless
 spec:
   ports:
     - name: paperless-postgres

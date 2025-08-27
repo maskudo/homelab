@@ -4,9 +4,8 @@ metadata:
   name: paperless
   labels:
     app: paperless
-  namespace: paperless
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: paperless
@@ -59,7 +58,6 @@ metadata:
   name: paperless-redis
   labels:
     app: paperless-redis
-  namespace: paperless
 spec:
   replicas: 1
   selector:
@@ -91,7 +89,6 @@ metadata:
   name: paperless-postgres
   labels:
     app: paperless-postgres
-  namespace: paperless
 spec:
   serviceName: paperless-postgres
   replicas: 1
@@ -117,7 +114,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: paperless
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql
               name: paperless-postgres
       volumes:
         - name: paperless-postgres
