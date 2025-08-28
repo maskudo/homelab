@@ -1,0 +1,60 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filebrowser
+  labels:
+    app: filebrowser
+spec:
+  selector:
+    matchLabels:
+      app: filebrowser
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: filebrowser
+    spec:
+      containers:
+        - name: filebrowser
+          image: filebrowser/filebrowser:latest
+          imagePullPolicy:
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          env:
+            - name: PUID
+              value: $(id -u)
+            - name: PGID
+              value: $(id -g)
+          ports:
+            - containerPort: 80
+              name: default
+          volumeMounts:
+            - name: media
+              mountPath: /srv
+            - name: filebrowser-config
+              mountPath: /home/filebrowser/database.db
+      volumes:
+        - name: media
+          nfs:
+            server: 192.168.1.67
+            path: /media
+        - name: filebrowser-config
+          persistentVolumeClaim:
+            claimName: filebrowser-config-pvc
+      restartPolicy: Always
+---
+

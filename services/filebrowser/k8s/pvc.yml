@@ -1,0 +1,14 @@
+# https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: filebrowser-config-pvc
+  labels:
+    app: filebrowser
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
