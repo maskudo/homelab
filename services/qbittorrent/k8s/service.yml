@@ -1,0 +1,23 @@
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent
+  namespace: apps
+spec:
+  selector:
+    app: qbittorrent
+  type: ClusterIP
+  ports:
+    - name: udp
+      protocol: UDP
+      port: 6881
+      targetPort: 6881
+    - name: tcp
+      protocol: TCP
+      port: 6881
+      targetPort: 6881
+    - name: ui
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
