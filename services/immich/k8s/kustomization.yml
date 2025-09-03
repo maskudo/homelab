@@ -6,6 +6,5 @@ resources:
   - deployment.yml
   - pvc.yml
   - service.yml
-  - namespace.yml
   - ingress.yml
   - configmap.yml
