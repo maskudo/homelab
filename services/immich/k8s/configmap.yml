@@ -1,0 +1,13 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immich
+  namespace: apps
+data:
+  DB_PASSWORD: postgres
+  DB_HOSTNAME: immich-postgres.apps.svc.cluster.local
+  DB_USERNAME: postgres
+  DB_DATABASE_NAME: immich
+  IMMICH_PORT: "2283"
+  REDIS_HOSTNAME: immich-redis.apps.svc.cluster.local
