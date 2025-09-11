@@ -10,10 +10,9 @@ spec:
       port: 8000
       protocol: TCP
       targetPort: 8000
-      nodePort: 30800
   selector:
     app: paperless
-  type: NodePort
+  type: ClusterIP
 
 ---
 apiVersion: v1

@@ -14,45 +14,6 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: paperless-media
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: paperless-export
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: paperless-consume
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: paperless-redis
 spec:
   storageClassName: longhorn

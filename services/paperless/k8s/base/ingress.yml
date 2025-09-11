@@ -2,19 +2,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: paperless
-  annotations:
-    traefik.ingress.kubernetes.io/service.passhostheader: "true"
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-redirect@kubernetescrd
 spec:
-  ingressClassName: "traefik"
   rules:
     - host: paperless.manujkarki.com.np
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: paperless
                 port:
-                  number: 30800
-            path: /
-            pathType: Prefix
+                  number: 8000
