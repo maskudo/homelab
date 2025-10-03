@@ -14,4 +14,35 @@ spec:
       port: 9090
       targetPort: 9090
 ---
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-exporter
+  namespace: apps
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9100"
+spec:
+  selector:
+    app.kubernetes.io/component: exporter
+    app.kubernetes.io/name: node-exporter
+  ports:
+    - name: node-exporter
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
 
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana
+  namespace: apps
+spec:
+  selector:
+    app: grafana
+  ports:
+    - name: grafana
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
