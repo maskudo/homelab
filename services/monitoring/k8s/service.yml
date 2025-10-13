@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prometheus
-  namespace: apps
+  namespace: monitoring
 spec:
   selector:
     app: prometheus
@@ -18,7 +18,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: node-exporter
-  namespace: apps
+  namespace: monitoring
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9100"
@@ -37,10 +37,11 @@ kind: Service
 apiVersion: v1
 metadata:
   name: grafana
-  namespace: apps
+  namespace: monitoring
 spec:
   selector:
     app: grafana
+  type: ClusterIP
   ports:
     - name: grafana
       protocol: TCP

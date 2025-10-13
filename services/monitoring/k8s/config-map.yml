@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
-  namespace: apps
+  namespace: monitoring
 data:
   key: value
   prometheus.yaml: |

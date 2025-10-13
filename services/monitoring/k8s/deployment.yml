@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
-  namespace: apps
+  namespace: monitoring
   labels:
     app: prometheus
 spec:
@@ -55,7 +55,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
-  namespace: apps
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
