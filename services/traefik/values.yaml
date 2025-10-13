@@ -1,0 +1,24 @@
+deployment:
+  replicas: 1
+
+crds:
+  enabled: true
+
+logs:
+  general:
+    level: DEBUG
+  access:
+    enabled: true
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    # Custom match rule with host domain
+    matchRule: Host(`traefik.manujkarki.com.np`)
+    entryPoints: ["web", "websecure"]
+
+# HTTP permanent redirect
+additionalArguments:
+  - "--entrypoints.web.http.redirections.entryPoint.to=:443"
+  - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+  - "--entrypoints.web.http.redirections.entryPoint.permanent=true"

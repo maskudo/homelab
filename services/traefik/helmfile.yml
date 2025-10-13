@@ -1,0 +1,12 @@
+repositories:
+  - name: traefik
+    url: https://traefik.github.io/charts
+
+releases:
+  - name: traefik
+    namespace: traefik
+    chart: traefik/traefik
+    version: 37.1.2
+    createNamespace: true
+    values:
+      - values.yaml
