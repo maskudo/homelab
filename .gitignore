@@ -14,3 +14,6 @@ services/nginx/certbot/conf/renewal
 services/traefik/.env
 services/authelia/authelia/config/db.sqlite3
 services/authelia/authelia/config/notification.txt
+.direnv/bin
+.direnv
+services/cert-manager/secret.yml
