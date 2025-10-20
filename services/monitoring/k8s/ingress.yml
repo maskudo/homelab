@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - grafana.manujkarki.com.np
-      secretName: grafana-certificate-secret
+      secretName: apps-certificate-secret
 
   rules:
     - host: grafana.manujkarki.com.np
@@ -32,6 +32,3 @@ spec:
                 name: ssl-redirect
                 port:
                   name: use-annotation
-
----
-

@@ -1,0 +1,7 @@
+releases:
+  - name: reflector
+    namespace: default
+    chart: oci://ghcr.io/emberstack/helm-charts/reflector
+    version: 9.1.35
+    values:
+      - values.yml

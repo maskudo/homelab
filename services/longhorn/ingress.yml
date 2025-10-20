@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - longhorn.manujkarki.com.np
-      secretName: longhorn-certificate-secret
+      secretName: apps-certificate-secret
 
   rules:
     - host: longhorn.manujkarki.com.np
