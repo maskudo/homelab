@@ -1,0 +1,26 @@
+argo-cd:
+  dex:
+    enabled: false
+  notifications:
+    enabled: false
+  applicationSet:
+    enabled: false
+
+global:
+  domain: argocd.manujkarki.com.np
+
+configs:
+  params:
+    server.insecure: true
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: argocd.manujkarki.com.np
+    extraTls:
+      - hosts:
+          - argocd.manujkarki.com.np
+        secretName: apps-certificate-secret

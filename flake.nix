@@ -16,6 +16,7 @@
             age
             sops
             ssh-to-age
+            argocd
           ];
         };
     };
