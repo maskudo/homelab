@@ -35,14 +35,6 @@ resource "incus_storage_pool" "default" {
   }
 }
 
-resource "incus_network" "kubernetes" {
-  name    = "kubernetes"
-  project = incus_project.kubernetes.name
-  config = {
-    "ipv4.address" = "10.10.10.1/24"
-    "ipv4.nat"     = "true"
-  }
-}
 
 resource "incus_profile" "kubernetes" {
   name    = "kubernetes"
@@ -66,8 +58,8 @@ resource "incus_profile" "kubernetes" {
     type = "nic"
 
     properties = {
-      nictype = "bridged"
-      parent  = incus_network.kubernetes.name
+      nictype = "macvlan"
+      parent  = "vmbr0"
     }
   }
 }
@@ -76,19 +68,66 @@ resource "incus_profile" "kubernetes" {
 resource "incus_instance" "ubuntu-server-01" {
   name     = "ubuntu-server-01"
   image    = "images:ubuntu/noble/cloud"
+  type     = "virtual-machine"
   project  = incus_project.kubernetes.name
   profiles = [incus_profile.kubernetes.name]
   config = {
-    "boot.autostart" = true
-    "limits.cpu"     = 2
-    "limits.memory"  = "4GiB"
+    "boot.autostart"       = true
+    "limits.cpu"           = 2
+    "limits.memory"        = "2GiB"
+    "cloud-init.user-data" = <<EOF
+      #cloud-config
+      users:
+        - name: ubuntu
+          ssh_authorized_keys:
+            - ${file("~/.ssh/id_ed25519.pub")}
+          sudo: ALL=(ALL) NOPASSWD:ALL
+          shell: /bin/bash
+      package_update: true
+      package_upgrade: true
+      package_reboot_if_required: true
+      packages:
+        - openssh-server
+        - nfs-common
+        - open-iscsi
+    EOF
   }
-  wait_for {
-    type = "ipv4"
-    nic  = "eth0"
+}
+
+resource "incus_instance" "ubuntu-worker" {
+  count    = 2
+  name     = "ubuntu-worker-0${count.index}"
+  type     = "virtual-machine"
+  image    = "images:ubuntu/noble/cloud"
+  project  = incus_project.kubernetes.name
+  profiles = [incus_profile.kubernetes.name]
+  config = {
+    "boot.autostart"       = true
+    "limits.cpu"           = 2
+    "limits.memory"        = "4GiB"
+    "cloud-init.user-data" = <<EOF
+      #cloud-config
+      users:
+        - name: ubuntu
+          ssh_authorized_keys:
+            - ${file("~/.ssh/id_ed25519.pub")}
+          sudo: ALL=(ALL) NOPASSWD:ALL
+          shell: /bin/bash
+      package_update: true
+      package_upgrade: true
+      package_reboot_if_required: true
+      packages:
+        - openssh-server
+        - nfs-common
+        - open-iscsi
+    EOF
   }
 }
 
 output "ubuntu-server-01-ip-address" {
   value = incus_instance.ubuntu-server-01.ipv4_address
+}
+
+output "ubuntu-workers-ip-addresss" {
+  value = { for idx, instance in incus_instance.ubuntu-worker : instance.name => instance.ipv4_address }
 }
