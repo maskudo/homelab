@@ -58,7 +58,7 @@ resource "incus_profile" "kubernetes" {
     type = "nic"
 
     properties = {
-      nictype = "macvlan"
+      nictype = "bridged"
       parent  = "vmbr0"
     }
   }
