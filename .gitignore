@@ -21,3 +21,9 @@ incus/.terraform/providers/registry.opentofu.org/lxc/incus/1.0.0
 incus/terraform.tfstate
 incus/terraform.tfstate.backup
 incus/terraform.tfvars
+docker/audiobookshelf/config
+docker/audiobookshelf/metadata
+docker/immich/library
+docker/traefik/.env
+docker/vaultwarden/vw-data
+k8s/cert-manager/secret.yml
