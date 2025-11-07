@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: filebrowser
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
 spec:
   rules:
     - host: file.manujkarki.com.np

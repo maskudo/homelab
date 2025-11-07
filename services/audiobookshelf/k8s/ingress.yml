@@ -2,10 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: audiobookshelf
-  namespace: audiobookshelf
+  namespace: apps
   annotations:
-    traefik.ingress.kubernetes.io/service.passhostheader: "true"
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-redirect@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
 spec:
   ingressClassName: "traefik"
   rules:
@@ -16,6 +15,6 @@ spec:
               service:
                 name: audiobookshelf
                 port:
-                  number: 30081
+                  number: 80
             path: /
             pathType: Prefix

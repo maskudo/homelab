@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: audiobookshelf-config
-  namespace: audiobookshelf
+  namespace: apps
 spec:
   storageClassName: longhorn
   accessModes:
@@ -16,7 +16,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: audiobookshelf-metadata
-  namespace: audiobookshelf
+  namespace: apps
 spec:
   storageClassName: longhorn
   accessModes:
@@ -30,7 +30,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: audiobookshelf-podcasts
-  namespace: audiobookshelf
+  namespace: apps
 spec:
   storageClassName: longhorn
   accessModes:
@@ -44,7 +44,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: audiobookshelf-audiobooks
-  namespace: audiobookshelf
+  namespace: apps
 spec:
   storageClassName: longhorn
   accessModes:
