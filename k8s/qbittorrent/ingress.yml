@@ -5,6 +5,10 @@ metadata:
   name: qbittorrent
   namespace: app
 spec:
+  tls:
+    - hosts:
+        - torrent.manujkarki.com.np
+      secretName: apps-certificate-secret
   rules:
     - host: torrent.manujkarki.com.np
       http:

@@ -6,7 +6,10 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
 spec:
-  ingressClassName: "traefik"
+  tls:
+    - hosts:
+        - audiobooks.manujkarki.com.np
+      secretName: apps-certificate-secret
   rules:
     - host: audiobooks.manujkarki.com.np
       http:

@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: paperless
 spec:
+  tls:
+    - hosts:
+        - paperless.manujkarki.com.np
+      secretName: apps-certificate-secret
   rules:
     - host: paperless.manujkarki.com.np
       http:

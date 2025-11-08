@@ -5,6 +5,10 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  tls:
+    - hosts:
+        - immich.manujkarki.com.np
+      secretName: apps-certificate-secret
   rules:
     - host: photos.manujkarki.com.np
       http:

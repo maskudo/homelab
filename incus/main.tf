@@ -74,7 +74,7 @@ resource "incus_instance" "ubuntu-server-01" {
   config = {
     "boot.autostart"       = true
     "limits.cpu"           = 2
-    "limits.memory"        = "2GiB"
+    "limits.memory"        = "4GiB"
     "cloud-init.user-data" = <<EOF
       #cloud-config
       users:
@@ -104,7 +104,7 @@ resource "incus_instance" "ubuntu-worker" {
   config = {
     "boot.autostart"       = true
     "limits.cpu"           = 2
-    "limits.memory"        = "4GiB"
+    "limits.memory"        = "6GiB"
     "cloud-init.user-data" = <<EOF
       #cloud-config
       users:
