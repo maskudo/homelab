@@ -129,7 +129,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-datasources
-  namespace: apps
+  namespace: monitoring
 data:
   prometheus.yaml: |
     {
@@ -141,7 +141,7 @@ data:
                 "name": "prometheus",
                 "orgId": 1,
                 "type": "prometheus",
-                "url": "http://prometheus.apps.svc.cluster.local:9090",
+                "url": "http://prometheus.monitoring.svc.cluster.local:9090",
                 "version": 1
             }
         ]
