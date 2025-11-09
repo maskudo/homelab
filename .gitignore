@@ -27,3 +27,4 @@ docker/immich/library
 docker/traefik/.env
 docker/vaultwarden/vw-data
 k8s/cert-manager/secret.yml
+terraform.tfstate
