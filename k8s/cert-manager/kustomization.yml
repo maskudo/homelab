@@ -1,0 +1,5 @@
+namespace: cert-manager
+resources:
+  - certificate.yml
+  - cluster-issuer.yml
+  - secret.sops.yml
