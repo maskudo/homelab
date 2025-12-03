@@ -5,7 +5,7 @@ metadata:
   labels:
     app: qbittorrent
 spec:
-  storageClassName: longhorn
+  storageClassName: nfs-delete
   accessModes:
     - ReadWriteOnce
   resources:

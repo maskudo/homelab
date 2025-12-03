@@ -4,7 +4,7 @@ metadata:
   name: audiobookshelf-config
   namespace: apps
 spec:
-  storageClassName: longhorn
+  storageClassName: nfs-delete
   accessModes:
     - ReadWriteMany
   resources:
@@ -18,7 +18,7 @@ metadata:
   name: audiobookshelf-metadata
   namespace: apps
 spec:
-  storageClassName: longhorn
+  storageClassName: nfs-delete
   accessModes:
     - ReadWriteMany
   resources:
@@ -32,7 +32,7 @@ metadata:
   name: audiobookshelf-podcasts
   namespace: apps
 spec:
-  storageClassName: longhorn
+  storageClassName: nfs-delete
   accessModes:
     - ReadWriteMany
   resources:
@@ -46,7 +46,7 @@ metadata:
   name: audiobookshelf-audiobooks
   namespace: apps
 spec:
-  storageClassName: longhorn
+  storageClassName: nfs-delete
   accessModes:
     - ReadWriteMany
   resources:

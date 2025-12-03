@@ -6,7 +6,7 @@ metadata:
   labels:
     app: filebrowser
 spec:
-  storageClassName: longhorn
+  storageClassName: nfs-delete
   accessModes:
     - ReadWriteOnce
   resources:
