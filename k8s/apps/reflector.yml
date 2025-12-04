@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: reflector
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: "https://github.com/maskudo/homelab"
+      targetRevision: main
+      ref: src
+    - repoURL: oci://ghcr.io/emberstack/helm-charts/reflector
+      chart: "reflector"
+      targetRevision: "9.1.35"
+      helm:
+        valueFiles:
+          - $src/k8s/reflector/values.yml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

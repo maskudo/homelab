@@ -9,9 +9,20 @@ spec:
   tls:
     - hosts:
         - audiobooks.manujkarki.com.np
+        - audiobookshelf.manujkarki.com.np
       secretName: apps-certificate-secret
   rules:
     - host: audiobooks.manujkarki.com.np
+      http:
+        paths:
+          - backend:
+              service:
+                name: audiobookshelf
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+    - host: audiobookshelf.manujkarki.com.np
       http:
         paths:
           - backend:
