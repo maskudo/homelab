@@ -3,13 +3,13 @@
 ## Create age key from ssh private key
 
 ```bash
-ssh-to-age -private-key -i /home/omen/.ssh/id_ed25519 -o key.txt
+ssh-to-age -private-key -i ~/.ssh/id_ed25519 -o key.txt
 ```
 
 ## Create age key from ssh public key
 
 ```bash
-ssh-to-age -i /home/omen/.ssh/id_ed25519.pub -o public_key.txt
+ssh-to-age -i ~/.ssh/id_ed25519.pub -o public_key.txt
 ```
 
 ## Encrypt using sops
