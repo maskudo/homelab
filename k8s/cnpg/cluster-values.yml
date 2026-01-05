@@ -3,3 +3,11 @@ cluster:
   storage:
     size: 10Gi
     storageClass: "local-path"
+  roles:
+    - name: atuin
+      ensure: present
+      comment: atuin
+      login: true
+      superuser: true
+      passwordSecret:
+        name: cnpg-atuin-user
