@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: wallabag
+spec:
+  name: wallabag
+  owner: wallabag
+  cluster:
+    name: cnpg-cluster

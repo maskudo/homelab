@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wallabag
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+spec:
+  tls:
+    - hosts:
+        - wallabag.manujkarki.com.np
+      secretName: apps-certificate-secret
+  rules:
+    - host: wallabag.manujkarki.com.np
+      http:
+        paths:
+          - backend:
+              service:
+                name: wallabag
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix

@@ -11,3 +11,10 @@ cluster:
       superuser: true
       passwordSecret:
         name: cnpg-atuin-user
+    - name: wallabag
+      ensure: present
+      comment: wallabag
+      login: true
+      superuser: true
+      passwordSecret:
+        name: cnpg-wallabag-user
