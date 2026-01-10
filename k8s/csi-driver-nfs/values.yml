@@ -9,3 +9,13 @@ storageClasses:
     volumeBindingMode: Immediate
     mountOptions:
       - nfsvers=3
+  - name: nfs-retain
+    annotations:
+      storageclass.kubernetes.io/is-default-class: "true"
+    parameters:
+      server: 192.168.1.67
+      share: /export/ssd/pvcs
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    mountOptions:
+      - nfsvers=3
