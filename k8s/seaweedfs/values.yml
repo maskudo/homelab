@@ -1,0 +1,74 @@
+global:
+  enableReplication: false
+
+master:
+  enabled: true
+  replicas: 1
+  # Enable metrics for monitoring
+  metricsPort: 9327
+
+filer:
+  enabled: true
+  extraEnvironmentVars:
+    WEED_LEVELDB2_ENABLED: "false"
+    WEED_POSTGRES_ENABLED: "true"
+  secretExtraEnvironmentVars:
+    WEED_POSTGRES_HOSTNAME:
+      secretKeyRef:
+        name: seaweedfs-secrets
+        key: POSTGRES_HOST
+
+    WEED_POSTGRES_PORT:
+      secretKeyRef:
+        name: seaweedfs-secrets
+        key: POSTGRES_PORT
+
+    WEED_POSTGRES_DATABASE:
+      secretKeyRef:
+        name: seaweedfs-secrets
+        key: POSTGRES_DB
+
+    WEED_POSTGRES_USERNAME:
+      secretKeyRef:
+        name: seaweedfs-secrets
+        key: POSTGRES_USER
+
+    WEED_POSTGRES_PASSWORD:
+      secretKeyRef:
+        name: seaweedfs-secrets
+        key: POSTGRES_PASSWORD
+
+volume:
+  dataDirs:
+    - name: data1
+      type: "persistentVolumeClaim"
+      storageClass: "nfs-retain-wffc"
+      size: "10Gi"
+      maxVolumes: 0
+
+s3:
+  enabled: true
+  replicas: 1
+  ingress:
+    host: s3.manujkarki.com.np
+    className: "traefik"
+    tls:
+      - hosts:
+          - s3.manujkarki.com.np
+        secretName: apps-certificate-secret
+
+admin:
+  enabled: true
+  port: 23646
+  secret:
+    existingSecret: "seaweedfs-web-user-secrets"
+    userKey: "adminUser"
+    pwKey: "adminPassword"
+  ingress:
+    enabled: true
+    host: seaweedfs.manujkarki.com.np
+    className: "traefik"
+    tls:
+      - hosts:
+          - seaweedfs.manujkarki.com.np
+        secretName: apps-certificate-secret

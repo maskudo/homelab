@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: seaweedfs
+  namespace: database
+spec:
+  name: seaweedfs
+  owner: seaweedfs
+  cluster:
+    name: cnpg-cluster

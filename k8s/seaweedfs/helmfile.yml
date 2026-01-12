@@ -1,0 +1,12 @@
+repositories:
+  - name: seaweedfs
+    url: https://seaweedfs.github.io/seaweedfs/helm
+
+releases:
+  - name: seaweedfs
+    namespace: apps
+    chart: seaweedfs/seaweedfs
+    version: 4.0.405
+    createNamespace: true
+    values:
+      - values.yml

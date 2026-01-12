@@ -1,0 +1,5 @@
+resources:
+  - secret.sops.yml
+  - db.yml
+  - database-user-secret.sops.yml
+  - web-user-secret.sops.yml

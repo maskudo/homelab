@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seaweedfs
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: "https://github.com/maskudo/homelab"
+      targetRevision: main
+      ref: src
+    - repoURL: https://seaweedfs.github.io/seaweedfs/helm
+      chart: seaweedfs
+      targetRevision: "4.0.405"
+      helm:
+        valueFiles:
+          - $src/k8s/seaweedfs/values.yml
+    - repoURL: "https://github.com/maskudo/homelab"
+      path: k8s/seaweedfs
+      targetRevision: main
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

@@ -11,6 +11,7 @@ cluster:
       superuser: true
       passwordSecret:
         name: cnpg-atuin-user
+
     - name: wallabag
       ensure: present
       comment: wallabag
@@ -18,3 +19,11 @@ cluster:
       superuser: true
       passwordSecret:
         name: cnpg-wallabag-user
+
+    - name: seaweedfs
+      ensure: present
+      comment: seaweedfs
+      login: true
+      superuser: true
+      passwordSecret:
+        name: cnpg-seaweedfs-user
