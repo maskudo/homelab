@@ -3,6 +3,12 @@ cluster:
   storage:
     size: 10Gi
     storageClass: "local-path"
+  monitoring:
+    enabled: true
+    podMonitor:
+      enabled: false
+    prometheusRule:
+      enabled: false
   roles:
     - name: atuin
       ensure: present

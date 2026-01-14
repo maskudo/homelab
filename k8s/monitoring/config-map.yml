@@ -14,6 +14,30 @@ data:
     # Here it's Prometheus itself.
     scrape_configs:
       # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+      - job_name: 'cnpg-postgres'
+        metrics_path: /metrics
+        scheme: http
+
+        kubernetes_sd_configs:
+          - role: pod
+
+        relabel_configs:
+          # Only CNPG pods
+          - source_labels: [__meta_kubernetes_pod_label_cnpg_io_cluster]
+            action: keep
+            regex: .+
+
+          # Only metrics port
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            action: keep
+            regex: "9187"
+
+          # Set useful labels
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
       - job_name: seaweedfs
         kubernetes_sd_configs:
           - role: pod
