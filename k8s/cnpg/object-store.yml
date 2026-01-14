@@ -1,0 +1,18 @@
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: seaweedfs-store
+  namespace: database
+spec:
+  configuration:
+    destinationPath: s3://cnpg-backups/app-db
+    endpointURL: http://s3.manujkarki.com.np
+    s3Credentials:
+      accessKeyId:
+        name: seaweedfs-s3-secret
+        key: admin_access_key_id
+      secretAccessKey:
+        name: seaweedfs-s3-secret
+        key: admin_secret_access_key
+    wal:
+      compression: gzip

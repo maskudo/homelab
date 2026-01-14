@@ -15,6 +15,9 @@ spec:
       helm:
         valueFiles:
           - $src/k8s/cnpg/operator-values.yml
+    - repoURL: "https://github.com/maskudo/homelab"
+      path: k8s/cnpg
+      targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: cnpg-system
@@ -44,9 +47,40 @@ spec:
       helm:
         valueFiles:
           - $src/k8s/cnpg/cluster-values.yml
+    - repoURL: "https://github.com/maskudo/homelab"
+      path: k8s/cnpg
+      targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: database
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: plugin-barman-cloud
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: "https://github.com/maskudo/homelab"
+      targetRevision: main
+      ref: src
+    - repoURL: https://cloudnative-pg.github.io/charts
+      chart: "plugin-barman-cloud"
+      targetRevision: 0.4.0
+      helm:
+        valueFiles:
+          - $src/k8s/cnpg/barman-values.yml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
