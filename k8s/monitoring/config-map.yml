@@ -14,6 +14,17 @@ data:
     # Here it's Prometheus itself.
     scrape_configs:
       # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+      - job_name: seaweedfs
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+          action: keep
+          regex: seaweedfs
+        - source_labels: [__address__]
+          regex: (.+):\d+
+          replacement: $1:9327
+          target_label: __address__
       - job_name: "prometheus"
         # Override the global default and scrape targets from this job every 5 seconds.
         scrape_interval: 5s
