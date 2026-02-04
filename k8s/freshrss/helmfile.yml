@@ -1,0 +1,12 @@
+repositories:
+  - name: christianhaas
+    url: https://charts.christianhuth.de
+
+releases:
+  - name: freshrss
+    namespace: apps
+    createNamespace: true
+    chart: christianhaas/freshrss
+    version: 2.5.2
+    values:
+      - ./values.yml

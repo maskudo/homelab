@@ -33,3 +33,11 @@ cluster:
       superuser: true
       passwordSecret:
         name: cnpg-seaweedfs-user
+
+    - name: freshrss
+      ensure: present
+      comment: freshrss
+      login: true
+      superuser: true
+      passwordSecret:
+        name: cnpg-freshrss-user

@@ -1,0 +1,30 @@
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - host: rss.manujkarki.com.np
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: apps-certificate-secret
+      hosts:
+        - rss.manujkarki.com.np
+
+persistence:
+  data:
+    enabled: true
+    storageClass: nfs-retain
+    size: 5Gi
+
+database:
+  type: postgresql
+
+externalPostgresql:
+  auth:
+    existingSecret: cnpg-freshrss-user
+    usernameKey: username
+    userPasswordKey: password
+    database: freshrss
+  hostname: cnpg-cluster-rw.database.svc.cluster.local
+  port: 5432
