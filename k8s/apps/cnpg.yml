@@ -15,9 +15,9 @@ spec:
       helm:
         valueFiles:
           - $src/k8s/cnpg/operator-values.yml
-    - repoURL: "https://github.com/maskudo/homelab"
-      path: k8s/cnpg
-      targetRevision: main
+    # - repoURL: "https://github.com/maskudo/homelab"
+    #   path: k8s/cnpg
+    #   targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: cnpg-system
@@ -47,9 +47,9 @@ spec:
       helm:
         valueFiles:
           - $src/k8s/cnpg/cluster-values.yml
-    - repoURL: "https://github.com/maskudo/homelab"
-      path: k8s/cnpg
-      targetRevision: main
+    # - repoURL: "https://github.com/maskudo/homelab"
+    #   path: k8s/cnpg
+    #   targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: database
