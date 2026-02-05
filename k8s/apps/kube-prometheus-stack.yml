@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: "https://github.com/maskudo/homelab"
+      targetRevision: main
+      ref: src
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      targetRevision: "81.5.0"
+      helm:
+        valueFiles:
+          - $src/k8s/kube-prometheus-stack/values.yml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

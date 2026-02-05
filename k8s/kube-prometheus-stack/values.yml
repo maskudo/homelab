@@ -1,0 +1,32 @@
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - grafana.manujkarki.com.np
+    tls:
+      - secretName: apps-certificate-secret
+        hosts:
+          - grafana.manujkarki.com.np
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - prometheus.manujkarki.com.np
+    tls:
+      - secretName: apps-certificate-secret
+        hosts:
+          - prometheus.manujkarki.com.np
+
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - alertmanager.manujkarki.com.np
+    tls:
+      - secretName: apps-certificate-secret
+        hosts:
+          - alertmanager.manujkarki.com.np
