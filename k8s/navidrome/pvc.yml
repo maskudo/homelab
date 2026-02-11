@@ -1,0 +1,26 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: navidrome-config
+  namespace: apps
+spec:
+  storageClassName: nfs-delete
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: navidrome-data
+  namespace: apps
+spec:
+  storageClassName: nfs-delete
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

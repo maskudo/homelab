@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navidrome
+  labels:
+    app: navidrome
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: navidrome
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      containers:
+        - image: deluan/navidrome:latest
+          name: navidrome
+          ports:
+            - containerPort: 4533
+              name: navidrome
+          volumeMounts:
+            - mountPath: /config
+              name: navidrome-config
+            - mountPath: /data
+              name: navidrome-data
+            - mountPath: /music
+              name: navidrome-music
+          env:
+            - name: ND_MUSICPATH
+              value: "/music"
+            - name: ND_CONFIGPATH
+              value: "/config"
+            - name: ND_DATAPATH
+              value: "/data"
+      volumes:
+        - name: navidrome-config
+          persistentVolumeClaim:
+            claimName: navidrome-config
+        - name: navidrome-data
+          persistentVolumeClaim:
+            claimName: navidrome-data
+        - name: navidrome-music
+          nfs:
+            server: 192.168.1.67
+            path: /media/Music
