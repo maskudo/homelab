@@ -30,3 +30,5 @@ k8s/cert-manager/secret.yml
 terraform.tfstate
 *secret.yml
 *secret.yaml
+**/.terraform**
+**/terraform.tfstate.backup*

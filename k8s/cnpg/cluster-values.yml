@@ -41,3 +41,14 @@ cluster:
       superuser: true
       passwordSecret:
         name: cnpg-freshrss-user
+backups:
+  enabled: true
+  retentionPolicy: "15d"
+  destinationPath: "s3://maskudo-homelab-backups/cnpg/"
+  s3:
+    region: "ap-south-1"
+  secret:
+    create: false
+    name: "s3-backup-credentials"
+  wal:
+    compression: gzip
