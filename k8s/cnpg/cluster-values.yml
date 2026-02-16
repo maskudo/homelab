@@ -50,5 +50,9 @@ backups:
   secret:
     create: false
     name: "s3-backup-credentials"
+  data:
+    compression: gzip
+    encryption: AES256
+    jobs: 1
   wal:
     compression: gzip
