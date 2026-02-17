@@ -1,0 +1,12 @@
+repositories:
+  - name: jellyfin
+    url: https://jellyfin.github.io/jellyfin-helm
+
+releases:
+  - name: jellyfin
+    namespace: apps
+    createNamespace: true
+    chart: jellyfin/jellyfin
+    version: 2.7.0
+    values:
+      - ./values.yml

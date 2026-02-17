@@ -1,0 +1,66 @@
+image:
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8096
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+  hosts:
+    - host: jellyfin.manujkarki.com.np
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: apps-certificate-secret
+      hosts:
+        - jellyfin.manujkarki.com.np
+
+persistence:
+  config:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    storageClass: nfs-delete
+  media:
+    enabled: false
+  cache:
+    enabled: true
+    type: pvc
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    storageClass: nfs-delete
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+volumes:
+  - name: shows
+    nfs:
+      server: 192.168.1.67
+      path: /media/Shows
+  - name: movies
+    nfs:
+      server: 192.168.1.67
+      path: /media/Movies
+  - name: music
+    nfs:
+      server: 192.168.1.67
+      path: /media/Music
+
+volumeMounts:
+  - name: music
+    mountPath: /media/Music
+  - name: shows
+    mountPath: /media/Shows
+  - name: movies
+    mountPath: /media/Movies
