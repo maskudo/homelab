@@ -4,7 +4,8 @@ kind: Deployment
 metadata:
   name: qbittorrent
   labels:
-    app: filebrowser
+    app: qbittorrent
+  namespace: apps
 spec:
   selector:
     matchLabels:
@@ -17,10 +18,17 @@ spec:
     spec:
       containers:
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:latest
+          image: lscr.io/linuxserver/qbittorrent:5.1.4
           ports:
-            - containerPort: 80
-              name: myjob
+            - containerPort: 8080
+              name: webui
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "2Gi"
+              cpu: "500m"
           volumeMounts:
             - name: media
               mountPath: /downloads
@@ -35,5 +43,4 @@ spec:
           persistentVolumeClaim:
             claimName: qbittorrent-config-pvc
       restartPolicy: Always
----
 
