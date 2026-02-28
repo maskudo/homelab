@@ -13,8 +13,8 @@ provider "aws" {
 
 # S3 Bucket for CNPG backups
 resource "aws_s3_bucket" "cnpg_backups" {
-  bucket = "maskudo-homelab-backups"
-
+  bucket        = "maskudo-homelab-backups"
+  force_destroy = true
   tags = {
     Name        = "CNPG Backups"
     Description = "S3 bucket for CloudNativePG WAL archiving and base backups"
