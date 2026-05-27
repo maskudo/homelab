@@ -23,6 +23,7 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - Replace=true
+      - PruneLast=true
     automated:
       prune: true
       selfHeal: true

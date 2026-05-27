@@ -2,22 +2,39 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
+
   outputs =
     { nixpkgs, ... }:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs systems (
+          system:
+          f {
+            pkgs = import nixpkgs {
+              inherit system;
+            };
+          }
+        );
     in
     {
-      devShells.${system}.default =
-        with pkgs;
-        mkShell {
-          buildInputs = [
-            age
-            sops
-            ssh-to-age
-            argocd
-          ];
-        };
+      devShells = forAllSystems (
+        { pkgs }:
+        {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              age
+              sops
+              ssh-to-age
+              argocd
+            ];
+          };
+        }
+      );
     };
 }
